@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(ERL_assignment_1)
+project(erl_assignment_1)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -24,3 +24,14 @@ if(BUILD_TESTING)
 endif()
 
 ament_package()
+
+install(DIRECTORY
+launch
+worlds
+rviz 
+urdf
+meshes
+gz_models
+DESTINATION share/${PROJECT_NAME}
+)
+
