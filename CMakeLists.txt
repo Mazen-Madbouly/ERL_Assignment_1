@@ -10,6 +10,30 @@ find_package(ament_cmake REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
+find_package(aruco_opencv REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(cv_bridge REQUIRED)
+find_package(OpenCV REQUIRED)
+find_package(tf2 REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
+
+add_executable(aruco_control_node aruco_control/aruco_control_node.cpp)
+target_link_libraries(aruco_control_node ${OpenCV_LIBRARIES})
+ament_target_dependencies(aruco_control_node
+  rclcpp
+  sensor_msgs
+  geometry_msgs
+  nav_msgs
+  cv_bridge
+  tf2
+  tf2_geometry_msgs
+)
+
+install(TARGETS aruco_control_node
+  DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
