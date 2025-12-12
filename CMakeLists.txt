@@ -10,12 +10,12 @@ find_package(ament_cmake REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
-find_package(aruco_opencv REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
+find_package(image_transport REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
@@ -28,6 +28,7 @@ ament_target_dependencies(aruco_control_node
   geometry_msgs
   nav_msgs
   cv_bridge
+  image_transport
   tf2
   tf2_geometry_msgs
 )
@@ -56,6 +57,7 @@ rviz
 urdf
 meshes
 gz_models
+aruco_control
 DESTINATION share/${PROJECT_NAME}
 )
 
