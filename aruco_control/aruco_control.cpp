@@ -23,7 +23,7 @@ class ArucoControlNode : public rclcpp::Node
 {
 public:
   ArucoControlNode()
-  : Node("aruco_control_node"), state_(State::SCANNING), initial_yaw_(0.0), current_yaw_(0.0), first_odom_(true)
+  : Node("aruco_control"), state_(State::SCANNING), initial_yaw_(0.0), current_yaw_(0.0), first_odom_(true)
   {
     // Parameters
     this->declare_parameter("camera_topic", "/camera/image");
@@ -127,7 +127,7 @@ private:
         twist.angular.z = 0.0;
       }
 
-      
+
     } else if (state_ == State::NAVIGATING) {
       if (current_target_index_ >= detected_ids_.size()) {
         twist.angular.z = 0.0;

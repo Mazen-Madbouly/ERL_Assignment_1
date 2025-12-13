@@ -20,9 +20,9 @@ find_package(OpenCV REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 
-add_executable(aruco_control_node aruco_control/aruco_control_node.cpp)
-target_link_libraries(aruco_control_node ${OpenCV_LIBRARIES})
-ament_target_dependencies(aruco_control_node
+add_executable(aruco_control aruco_control/aruco_control.cpp)
+target_link_libraries(aruco_control ${OpenCV_LIBRARIES})
+ament_target_dependencies(aruco_control
   rclcpp
   sensor_msgs
   geometry_msgs
@@ -33,7 +33,7 @@ ament_target_dependencies(aruco_control_node
   tf2_geometry_msgs
 )
 
-install(TARGETS aruco_control_node
+install(TARGETS aruco_control
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
@@ -55,7 +55,6 @@ launch
 worlds
 rviz 
 urdf
-meshes
 gz_models
 aruco_control
 DESTINATION share/${PROJECT_NAME}

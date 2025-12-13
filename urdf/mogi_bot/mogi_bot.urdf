@@ -3,10 +3,10 @@
 <robot name="mogi_bot" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!-- STEP 5 - Gazebo plugin -->
-  <xacro:include filename="$(find erl_assignment_1)/urdf/mogi_bot.gazebo" />
+  <xacro:include filename="$(find erl_assignment_1)/urdf/mogi_bot/mogi_bot.gazebo" />
 
   <!-- STEP 4 - RViz colors -->
-  <xacro:include filename="$(find erl_assignment_1)/urdf/materials.xacro" />
+  <xacro:include filename="$(find erl_assignment_1)/urdf/mogi_bot/materials.xacro" />
 
   <!-- STEP 1 - Robot footprint -->
   <link name="base_footprint"></link>
@@ -41,7 +41,7 @@
     <visual name='base_link_visual'>
       <origin xyz="0 0 0" rpy=" 0 0 0"/>
       <geometry>
-        <mesh filename="package://erl_assignment_1/meshes/mogi_bot.dae" />
+        <mesh filename="package://erl_assignment_1/urdf/mogi_bot/meshes/mogi_bot.dae" />
       </geometry>
     </visual>
 
@@ -106,7 +106,7 @@
     <visual name='left_wheel_visual'>
       <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
       <geometry>
-        <mesh filename = "package://erl_assignment_1/meshes/wheel.dae"/>
+        <mesh filename = "package://erl_assignment_1/urdf/mogi_bot/meshes/wheel.dae"/>
       </geometry>
     </visual>
   </link>
@@ -141,7 +141,7 @@
     <visual name='right_wheel_visual'>
       <origin xyz="0 0 0" rpy="0 1.5707 1.5707"/>
       <geometry>
-        <mesh filename = "package://erl_assignment_1/meshes/wheel.dae"/>
+        <mesh filename = "package://erl_assignment_1/urdf/mogi_bot/meshes/wheel.dae"/>
       </geometry>
     </visual>
   </link>

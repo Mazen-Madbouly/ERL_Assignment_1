@@ -127,6 +127,13 @@ def generate_launch_description():
         ]
     )
 
+    preception_control_node = Node(
+        package='erl_assignment_1',
+        executable='aruco_control',
+        name='aruco_control',
+        output='screen'
+    )
+
 
     launchDescriptionObject = LaunchDescription()
 
@@ -143,5 +150,6 @@ def generate_launch_description():
     launchDescriptionObject.add_action(spawn_urdf_node)
     launchDescriptionObject.add_action(gz_bridge_node)
     launchDescriptionObject.add_action(robot_state_publisher_node)
+    launchDescriptionObject.add_action(preception_control_node)
 
     return launchDescriptionObject

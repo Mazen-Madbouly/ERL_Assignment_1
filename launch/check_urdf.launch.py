@@ -21,7 +21,7 @@ def generate_launch_description():
 
     # URDF model path within the erl_assignment_1 package
     model_arg = DeclareLaunchArgument(
-        'model', default_value='mogi_bot.urdf',
+        'model', default_value='mogi_bot/mogi_bot.urdf',
         description='Name of the URDF description to load'
     )
 
