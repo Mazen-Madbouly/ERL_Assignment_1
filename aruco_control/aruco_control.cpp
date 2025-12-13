@@ -175,6 +175,8 @@ private:
              cv::circle(cv_ptr->image, center, 50, cv::Scalar(0, 255, 0), 4);
              cv::putText(cv_ptr->image, "ID: " + std::to_string(target_id), center, cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0,0,255), 2);
              result_image_pub_->publish(*cv_ptr->toImageMsg());
+             cv::imshow("Processed Image", cv_ptr->image);
+             cv::waitKey(1);
              
              RCLCPP_INFO(this->get_logger(), "Reached ID: %d. Moving to next.", target_id);
              
