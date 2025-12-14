@@ -2,6 +2,8 @@
 
 This ROS 2 package implements a robot control system that spawns a robot in a Gazebo environment, detects ArUco markers, and navigates to them in ascending order based on their ID from ARUCO ORIGINAL dictionary.
 
+For detailed documentation, please visit the [Project Wiki](https://deepwiki.com/Mazen-Madbouly/ERL_Assignment_1).
+
 ## Project Overview
 
 The main objective of this project is to control a robot to:
