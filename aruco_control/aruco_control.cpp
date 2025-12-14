@@ -31,7 +31,7 @@ public:
     this->declare_parameter("scan_speed", 0.4);
     this->declare_parameter("kp_ang", 0.002);
     this->declare_parameter("kp_lin", 0.00005);
-    this->declare_parameter("target_area", 15000.0);
+    this->declare_parameter("target_area", 12000.0);
     this->declare_parameter("linear_limit", 0.5);
 
     std::string camera_topic = this->get_parameter("camera_topic").as_string();
@@ -103,6 +103,10 @@ private:
     std::vector<std::vector<cv::Point2f>> corners;
     cv::aruco::detectMarkers(cv_ptr->image, dictionary_, corners, ids, parameters_);
 
+    if (ids.size() > 0) {
+      cv::aruco::drawDetectedMarkers(cv_ptr->image, corners, ids);
+    }
+
     // Control Logic
     geometry_msgs::msg::Twist twist;
 
@@ -173,9 +177,8 @@ private:
              
              // Draw circle & Publish
              cv::circle(cv_ptr->image, center, 50, cv::Scalar(0, 255, 0), 4);
-             cv::putText(cv_ptr->image, "ID: " + std::to_string(target_id), center, cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0,0,255), 2);
              result_image_pub_->publish(*cv_ptr->toImageMsg());
-             cv::imshow("Processed Image", cv_ptr->image);
+             cv::imshow("Processed image",cv_ptr->image);
              cv::waitKey(1);
              
              RCLCPP_INFO(this->get_logger(), "Reached ID: %d. Moving to next.", target_id);
@@ -212,7 +215,24 @@ private:
     }
 
     cmd_vel_pub_->publish(twist);
-  }
+
+    // Show image
+    // Display the next target ID in the navigation state
+    if (state_ == State::SCANNING) {
+      cv::putText(cv_ptr->image, "Scanning for IDs",
+                  cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(0, 255, 0), 2);
+    } else if (state_ == State::NAVIGATING) {
+      if (current_target_index_ < detected_ids_.size()) {
+        cv::putText(cv_ptr->image, "Tracking ID: " + std::to_string(detected_ids_[current_target_index_]),
+                    cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(0, 255, 0), 2);
+      } else {
+        cv::putText(cv_ptr->image, "Navigation Complete!",
+                    cv::Point(10, 30), cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(0, 255, 255), 2);
+      }
+    }
+    cv::imshow("Aruco View", cv_ptr->image);
+    cv::waitKey(1);
+}
 
   // Members
   rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr image_sub_;

@@ -134,16 +134,6 @@ def generate_launch_description():
         output='screen'
     )
 
-
-    rqt_node = Node(
-        package='rqt_image_view',
-        executable='rqt_image_view',
-        name='rqt_image_view',
-        output='screen',
-        arguments=['/aruco_control/processed_image']
-    )
-
-
     launchDescriptionObject = LaunchDescription()
 
     launchDescriptionObject.add_action(rviz_launch_arg)
@@ -160,6 +150,5 @@ def generate_launch_description():
     launchDescriptionObject.add_action(gz_bridge_node)
     launchDescriptionObject.add_action(robot_state_publisher_node)
     launchDescriptionObject.add_action(preception_control_node)
-    launchDescriptionObject.add_action(rqt_node)
 
     return launchDescriptionObject
