@@ -120,7 +120,7 @@ private:
       }
 
       // Rotate
-      twist.angular.z = scan_speed_;
+      twist.linear.x = scan_speed_;
 
       // Check termination of scan
       if (detected_ids_.size() >= 5) { // Assuming 5 markers
@@ -128,7 +128,7 @@ private:
         state_ = State::NAVIGATING;
         std::sort(detected_ids_.begin(), detected_ids_.end());    
         // Stop rotation
-        twist.angular.z = 0.0;
+        twist.linear.x = 0.0;
       }
 
 
@@ -163,16 +163,12 @@ private:
           double image_center_x = cv_ptr->image.cols / 2.0;
           double error_ang = image_center_x - center.x; // Positive if marker is to LEFT -> turn Left (+)
           
-          // 2. Linear Control (Approach based on area)
-          double area = cv::contourArea(corners[index_in_view]);
-          double error_lin = target_area_ - area; // Positive if too small -> move forward (+)
 
           bool aligned_ang = std::abs(error_ang) < 20; // 20 pixels angular tolerance
           bool aligned_lin = std::abs(error_lin) < (target_area_ * 0.1); // 10% area tolerance
 
           if (aligned_ang && aligned_lin) {
              // Goal Reached for this marker
-             twist.angular.z = 0.0;
              twist.linear.x = 0.0;
              
              // Draw circle & Publish
@@ -193,20 +189,16 @@ private:
              twist.angular.z = kp_ang_ * error_ang;
              twist.angular.z = std::max(-0.5, std::min(0.5, twist.angular.z)); // Limit angular speed
              
-             // Linear - Only move forward if somewhat centered to avoid losing it
-             if (std::abs(error_ang) < 100) {
-                 twist.linear.x = kp_lin_ * error_lin;
-                 twist.linear.x = std::max(-linear_limit_, std::min(linear_limit_, twist.linear.x));
-             } else {
-                 twist.linear.x = 0.0;
-             }
           }
 
         } else {
-          // Target not visible. Rotate to find it.
-          // Simple search: Rotate in one direction
-          twist.angular.z = 0.3; 
-          twist.linear.x = 0.0;
+          if (time_since_last_seen_.elapsed() > 5s) {
+            RCLCPP_WARN(this->get_logger(), "Lost sight of ID: %d. Re-scanning.", target_id);
+            state_ = State::SCANNING;
+            current_target_index_ = 0; // Restart navigation
+            twist.linear.x = -0.1;
+          }
+
         }
       }
     } else {

@@ -198,7 +198,7 @@
 </link>
 
 <joint type="fixed" name="camera_joint">
- <origin xyz="0.225 0 0.075" rpy="0 0 0"/>
+ <origin xyz="0.225 0 0.075" rpy="0 0 0.785"/>
  <child link="camera_link"/>
  <parent link="base_link"/>
  <axis xyz="0 1 0" />
@@ -212,5 +212,35 @@
 
  <link name="camera_link_optical">
  </link>
+
+ <joint type="fixed" name="scan_joint">
+    <origin xyz="0 0 0.15" rpy="0 0 0"/>
+    <child link="scan_link"/>
+    <parent link="base_link"/>
+  </joint>
+  
+  <link name='scan_link'>
+    <inertial>
+      <mass value="1e-5"/>
+      <origin xyz="0 0 0.15" rpy="0 0 0"/>
+      <inertia
+        ixx="1e-6" ixy="0" ixz="0"
+        iyy="1e-6" iyz="0"
+        izz="1e-6"/>
+    </inertial>
+    <collision name='collision'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+      <box size=".1 .1 .1"/>
+      </geometry>
+    </collision>
+
+    <visual name='scan_link_visual'>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename ="package://erl_assignment_1/urdf/mogi_bot/meshes/lidar.dae"/>
+      </geometry>
+    </visual>
+  </link>
 
 </robot>
